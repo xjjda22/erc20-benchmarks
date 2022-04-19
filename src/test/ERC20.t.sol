@@ -9,10 +9,12 @@ import {console} from "../utils/Console.sol";
 
 contract ERC20Test is DSTest {
     ERC20Mock m20;
+    address initialAccount;
     address alice = 0x000000000000000000636F6e736F6c652e6c6f67;
     address bob  = 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045;
 
     function setUp() public {
+        initialAccount = msg.sender;
         m20 = new ERC20Mock('ERC20MOCKBENCH','E20B', msg.sender, 1e18);
     }
 
@@ -29,12 +31,12 @@ contract ERC20Test is DSTest {
     }
 
     function testBalance() public {
-        assertEq(m20.balanceOf(msg.sender), 0);
+        assertEq(m20.balanceOf(initialAccount), 1e18);
     }
 
     function testMint() public {
-        assertEq(m20.balanceOf(alice), 0);
-        m20.mint(alice, 100);
-        assertGt(m20.balanceOf(alice), 0);
+        assertEq(m20.balanceOf(initialAccount), 1e18);
+        m20.mint(initialAccount, 100);
+        assertGt(m20.balanceOf(initialAccount), 1e18);
     }
 }
