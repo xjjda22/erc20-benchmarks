@@ -8,26 +8,26 @@ Prerequisites:
 # Building and Testing
 ```bash
 forge build
-forge test
+forge test 
 forge snapshot
 
-# test with log
-# forge test -vv 
+# logs and gas reports
+# forge test -vv --gas-report
 
 # forking from existing state
 # forge test -f http://127.0.0.1:8545 -vvv
 
 # To access the debugger
 # forge run --debug src/test/Contract.t.sol --sig "testExample()"
-
-# reference: https://book.getfoundry.sh/forge/tests.html
 ```
+# Reference
+https://book.getfoundry.sh/forge/tests.html
 
 # Benchmarks
 Benchmarks are separated by method. Check the description of each table.
 
 mint
-Implementation | 1 | 2 | 3 
+Implementation | 100 | 1000 | 1e18
 --- | --- | --- | --- 
 openzeppelin | 0 | 0 | 0 
 assembly-erc20 | 0 | 0 | 0 
