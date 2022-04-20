@@ -11,12 +11,16 @@ forge build
 forge test
 forge snapshot
 
+# test with log
+# forge test -vv 
+
 # forking from existing state
-# -vvv = very very verbose
 # forge test -f http://127.0.0.1:8545 -vvv
 
 # To access the debugger
 # forge run --debug src/test/Contract.t.sol --sig "testExample()"
+
+# reference: https://book.getfoundry.sh/forge/tests.html
 ```
 
 # Benchmarks
