@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.10;
+pragma solidity ^0.8.0;
 
 import {DSTest} from "@ds-test/test.sol";
 import {Test, stdError} from "@forge-std/Test.sol";
@@ -10,6 +10,7 @@ import {console} from "../utils/Console.sol";
 
 contract ERC20Test is DSTest, Test {
     ERC20Mock m20;
+
     address initialAccount;
     address alice = 0x000000000000000000636F6e736F6c652e6c6f67;
     address bob  = 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045;
@@ -59,18 +60,28 @@ contract ERC20Test is DSTest, Test {
     }
 
     function testMintFuzz(uint256 t) public {
-        console.log('testMintFuzz', msg.sender);
+        // console.log('testMintFuzz', msg.sender);
         console.log('testMintFuzz', t, m20.totalSupply());
         if(t < m20.totalSupply()){
             m20.mint(msg.sender, t);
             console.log('testMintFuzz', t, m20.totalSupply());
             m20.burn(msg.sender, t);
             console.log('testMintFuzz', t, m20.totalSupply());
-        } else{
-            m20.mint(msg.sender, t);
+            assertLt(t,m20.totalSupply());
+        } else {
             vm.expectRevert(stdError.arithmeticError);
-            // assertTrue(true);
+            m20.mint(msg.sender, t);
+
         }
+    }
+
+    function testMintFail() public {
+        uint256 t = 115792089237316195423570985008687907853269984665640564039456584007913129639936;
+        // console.log('testMintFail', msg.sender);
+        console.log('testMintFail', t, m20.totalSupply());
+        
+        vm.expectRevert(stdError.arithmeticError);
+        m20.mint(msg.sender, t);
     }
 
     // function testMintAlice1000() public {
