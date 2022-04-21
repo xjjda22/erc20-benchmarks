@@ -27,7 +27,7 @@ https://book.getfoundry.sh/forge/tests.html
 Benchmarks are separated by method. Check the description of each table.
 
 mint
-Implementation | 100 | 1000 | 1e18
+Implementation | 1000 | 1e20 | 1e75
 --- | --- | --- | --- 
-openzeppelin | 0 | 0 | 0 
-assembly-erc20 | 0 | 0 | 0 
+openzeppelin | 37191 | 37159 | 37182
+erc20-assembly | 0 | 0 | 0 
