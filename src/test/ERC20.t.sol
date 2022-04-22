@@ -73,7 +73,7 @@ contract ERC20Test is DSTest, Test {
     }
 
     function testMintFail() public {
-        uint256 t = 115792089237316195423570985008687907853269984665640564039456584007913129639936;
+        uint256 t = type(uint256).max;
         // console.log('testMintFail', msg.sender);
         // console.log('testMintFail', t, m20.totalSupply());
         
