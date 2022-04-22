@@ -62,16 +62,14 @@ contract ERC20Test is DSTest, Test {
     function testMintFuzz(uint256 t) public {
         // console.log('testMintFuzz', msg.sender);
         // console.log('testMintFuzz', t, m20.totalSupply());
-        if(t < m20.totalSupply()){
+        if(t > type(uint256).max - 1e18) {
+            // totalSupply would overflow here
+            vm.expectRevert(stdError.arithmeticError);
             m20.mint(msg.sender, t);
-            // console.log('testMintFuzz', t, m20.totalSupply());
-            m20.burn(msg.sender, t);
-            // console.log('testMintFuzz', t, m20.totalSupply());
-            assertLt(t,m20.totalSupply());
-        } else {
-            // vm.expectRevert(stdError.arithmeticError);
-            // m20.mint(msg.sender, t);
-        }
+            return;
+        } 
+        m20.mint(msg.sender, t);
+        assertLt(t,m20.totalSupply());
     }
 
     function testMintFail() public {
