@@ -29,5 +29,5 @@ Benchmarks are separated by method. Check the description of each table.
 mint
 Implementation | 1000 | 1e20 | 1e75
 --- | --- | --- | --- 
-openzeppelin | 37191 | 37159 | 37182
+erc20-openzeppelin | 37191 | 37159 | 37182
 erc20-assembly | 0 | 0 | 0 
