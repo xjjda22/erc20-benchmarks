@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-import {DSTest} from "@ds-test/test.sol";
 import {Test, stdError} from "@forge-std/Test.sol";
 
 import {ERC20Mock} from "../mocks/ERC20Mock.sol";
 import {console} from "../utils/Console.sol";
 
 
-contract ERC20Test is DSTest, Test {
+contract ERC20Test is Test {
     ERC20Mock m20;
 
     address initialAccount;
