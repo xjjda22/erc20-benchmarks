@@ -10,35 +10,29 @@ import {console} from "../utils/Console.sol";
 contract ERC20Test is Test {
     ERC20Mock m20;
 
-    address initialAccount;
-    address alice = 0x000000000000000000636F6e736F6c652e6c6f67;
-    address bob  = 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045;
+    address initAcc;
+    address aliceAcc = 0x000000000000000000636F6e736F6c652e6c6f67;
+    address bobAcc  = 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045;
 
     function setUp() public {
         // console.log('setUp', msg.sender);
-        initialAccount = msg.sender;
-        m20 = new ERC20Mock('ERC20MOCKBENCH','E20B', initialAccount, 1e18);
-        m20.approve(initialAccount, 1e18);
+        initAcc = msg.sender;
+        m20 = new ERC20Mock('ERC20MOCKBENCH','E20B', initAcc, 1e18);
+        m20.approve(initAcc, 1e18);
+        hoax(initAcc);
+        m20.approve(aliceAcc, 1e18);
     }
 
-    function testName() public {
+    function testC() public {
         // console.log('testName', msg.sender);
         assertEq(m20.name(),'ERC20MOCKBENCH');
-    }
-
-    function testSymbol() public {
-        // console.log('testSymbol', msg.sender);
         assertEq(m20.symbol(),'E20B');
-    }
-
-    function testSupply() public {
-        // console.log('testSupply', msg.sender);
         assertEq(m20.totalSupply(),1e18);
     }
 
-    function testBalance() public {
-        // console.log('testBalance', msg.sender);
-        assertEq(m20.balanceOf(initialAccount), 1e18);
+    function testAllowance() public {
+        hoax(initAcc);
+        assertEq(m20.allowance(initAcc, aliceAcc), 1000000);
     }
 
     function testMint() public {
@@ -56,9 +50,17 @@ contract ERC20Test is Test {
 
     function testTransfer() public {
         // console.log('testTransfer', msg.sender);
-        hoax(initialAccount);
+        hoax(initAcc);
         m20.transfer(msg.sender, 1000000);
-        assertEq(m20.balanceOf(initialAccount), 1e18 - 1000000);
+        assertEq(m20.balanceOf(initAcc), 1e18 - 1000000);
+        assertEq(m20.balanceOf(msg.sender), 1000000);
+    }
+
+    function testTransferFrom() public {
+        // console.log('testTransfer', msg.sender);
+        hoax(aliceAcc);
+        m20.transferFrom(initAcc, msg.sender, 1000000);
+        assertEq(m20.balanceOf(initAcc), 1e18 - 1000000);
         assertEq(m20.balanceOf(msg.sender), 1000000);
     }
 
