@@ -90,21 +90,21 @@ contract ERC20AssemblyTest is Test {
 
     function testMint_1000000() public {
         // console.log('testMint1000', msg.sender);
-        assertEq(m20.balanceOf(msg.sender), 0);
+        // assertEq(m20.balanceOf(msg.sender), 0);
         m20.mint(msg.sender, 1000000);
         assertEq(m20.balanceOf(msg.sender), 1000000);
     }
 
     function testMint_1000000_5() public {
         // console.log('testMint1000_5', msg.sender);
-        assertEq(m20.balanceOf(msg.sender), 0);
+        // assertEq(m20.balanceOf(msg.sender), 0);
         m20.mint(msg.sender, 1000000**5);
         assertEq(m20.balanceOf(msg.sender), 1000000**5);
     }
 
     function testMint_1000000_10() public {
         // console.log('testMint1000_10', msg.sender);
-        assertEq(m20.balanceOf(msg.sender), 0);
+        // assertEq(m20.balanceOf(msg.sender), 0);
         m20.mint(msg.sender, 1000000**10);
         assertEq(m20.balanceOf(msg.sender), 1000000**10);
     }

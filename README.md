@@ -29,7 +29,7 @@ Benchmarks are separated by method. Check the description of each table.
 mint
 Implementation | 1000000 | 1000000**5 | 1000000**10
 --- | --- | --- | --- 
-erc20-openzeppelin | 37204 | 37193 | 37217
+erc20-openzeppelin | 36067 | 36067 | 36080
 erc20-assembly | 0 | 0 | 0 
 
 burn
