@@ -68,6 +68,7 @@ contract ERC20AssemblyTest is Test {
     //     assertEq(m20.balanceOf(msg.sender), 1000000);
     // }
 
+    // mint
     function testMintFuzz(uint256 t) public {
         // console.log('testMintFuzz', msg.sender);
         if(t > type(uint256).max - 1e77) {
@@ -109,6 +110,7 @@ contract ERC20AssemblyTest is Test {
         assertEq(m20.balanceOf(msg.sender), 1000000**10);
     }
 
+    // burn
     function testBurn_1000000() public {
         hoax(initAcc);
         // console.log('testBurn', msg.sender);
@@ -130,6 +132,7 @@ contract ERC20AssemblyTest is Test {
         assertEq(m20.totalSupply(),1e77 - 1000000**10);
     }
 
+    // transfer
     function testTransfer_1000000() public {
         // console.log('testTransfer', msg.sender);
         hoax(initAcc);
@@ -154,6 +157,7 @@ contract ERC20AssemblyTest is Test {
         assertEq(m20.balanceOf(msg.sender), 1000000**10);
     }
 
+    // transferFrom
     function testTransferFrom_1000000() public {
         // console.log('testTransferFrom', msg.sender);
         hoax(aliceAcc);
