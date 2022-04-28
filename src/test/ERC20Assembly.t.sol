@@ -16,57 +16,61 @@ contract ERC20AssemblyTest is Test {
 
     function setUp() public {
         // console.log('setUp', msg.sender);
-        initialAccount = msg.sender;
-        m20 = new ERC20AssemblyMock('ERC20MockAssemblyBENCH','E20AB', initAcc, 1e18);
-        m20.approve(initAcc, 1e18);
+        initAcc = msg.sender;
+        m20 = new ERC20AssemblyMock('ERC20MockAssemblyBENCH','E20AB', initAcc, 1e77);
+        m20.approve(initAcc, 1e77);
         hoax(initAcc);
-        m20.approve(aliceAcc, 1e18);
+        m20.approve(aliceAcc, 1e77);
     }
 
     function testC() public {
         // console.log('testName', msg.sender);
         assertEq(m20.name(),'ERC20MockAssemblyBENCH');
         assertEq(m20.symbol(),'E20AB');
-        assertEq(m20.totalSupply(),1e18);
+        assertEq(m20.totalSupply(),1e77);
     }
 
     function testAllowance() public {
         hoax(initAcc);
-        assertEq(m20.allowance(initAcc, aliceAcc), 1000000);
+        assertEq(m20.allowance(initAcc, aliceAcc), 1e77);
     }
 
-    function testMint() public {
-        // console.log('testMint', msg.sender);
-        m20.mint(msg.sender, 1000000);
-        assertEq(m20.totalSupply(),1e18 + 1000000);
-    }
+    // function testMint() public {
+    //     // console.log('testMint', msg.sender);
+    //     m20.mint(msg.sender, 1000000);
+    //     assertEq(m20.totalSupply(),1e77 + 1000000);
+    // }
 
-    function testBurn() public {
-        // console.log('testBurn', msg.sender);
-        m20.mint(msg.sender, 1000000);
-        m20.burn(msg.sender, 1000000);
-        assertEq(m20.totalSupply(),1e18);
-    }
+    // function testBurn() public {
+    //     hoax(initAcc);
+    //     // console.log('testBurn', msg.sender);
+    //     m20.burn(initAcc, 1000000);
+    //     assertEq(m20.totalSupply(),1e77 - 1000000);
 
-    function testTransfer() public {
-        // console.log('testTransfer', msg.sender);
-        hoax(initAcc);
-        m20.transfer(msg.sender, 1000000);
-        assertEq(m20.balanceOf(initAcc), 1e18 - 1000000);
-        assertEq(m20.balanceOf(msg.sender), 1000000);
-    }
+    //     // m20.mint(msg.sender, 1000000);
+    //     // m20.burn(msg.sender, 1000000);
+    //     // assertEq(m20.totalSupply(),1e77);
+    // }
 
-    function testTransferFrom() public {
-        // console.log('testTransfer', msg.sender);
-        hoax(aliceAcc);
-        m20.transferFrom(initAcc, msg.sender, 1000000);
-        assertEq(m20.balanceOf(initAcc), 1e18 - 1000000);
-        assertEq(m20.balanceOf(msg.sender), 1000000);
-    }
+    // function testTransfer() public {
+    //     // console.log('testTransfer', msg.sender);
+    //     hoax(initAcc);
+    //     m20.transfer(msg.sender, 1000000);
+    //     assertEq(m20.balanceOf(initAcc), 1e77 - 1000000);
+    //     assertEq(m20.balanceOf(msg.sender), 1000000);
+    // }
+
+    // function testTransferFrom() public {
+    //     // console.log('testTransferFrom', msg.sender);
+    //     hoax(aliceAcc);
+    //     m20.transferFrom(initAcc, msg.sender, 1000000);
+    //     assertEq(m20.balanceOf(initAcc), 1e77 - 1000000);
+    //     assertEq(m20.balanceOf(msg.sender), 1000000);
+    // }
 
     function testMintFuzz(uint256 t) public {
         // console.log('testMintFuzz', msg.sender);
-        if(t > type(uint256).max - 1e18) {
+        if(t > type(uint256).max - 1e77) {
             // totalSupply would overflow here
             vm.expectRevert(stdError.arithmeticError);
             m20.mint(msg.sender, t);
@@ -84,24 +88,94 @@ contract ERC20AssemblyTest is Test {
         m20.mint(msg.sender, t);
     }
 
-    function testMint1000() public {
+    function testMint_1000000() public {
         // console.log('testMint1000', msg.sender);
         assertEq(m20.balanceOf(msg.sender), 0);
-        m20.mint(msg.sender, 1000);
-        assertEq(m20.balanceOf(msg.sender), 1000);
+        m20.mint(msg.sender, 1000000);
+        assertEq(m20.balanceOf(msg.sender), 1000000);
     }
 
-    function testMint1000_10() public {
+    function testMint_1000000_5() public {
+        // console.log('testMint1000_5', msg.sender);
+        assertEq(m20.balanceOf(msg.sender), 0);
+        m20.mint(msg.sender, 1000000**5);
+        assertEq(m20.balanceOf(msg.sender), 1000000**5);
+    }
+
+    function testMint_1000000_10() public {
         // console.log('testMint1000_10', msg.sender);
         assertEq(m20.balanceOf(msg.sender), 0);
-        m20.mint(msg.sender, 1000**10);
-        assertEq(m20.balanceOf(msg.sender), 1000**10);
+        m20.mint(msg.sender, 1000000**10);
+        assertEq(m20.balanceOf(msg.sender), 1000000**10);
     }
 
-    function testMint1000_20() public {
-        // console.log('testMint1000_20', msg.sender);
-        assertEq(m20.balanceOf(msg.sender), 0);
-        m20.mint(msg.sender, 1000**20);
-        assertEq(m20.balanceOf(msg.sender), 1000**20);
+    function testBurn_1000000() public {
+        hoax(initAcc);
+        // console.log('testBurn', msg.sender);
+        m20.burn(initAcc, 1000000);
+        assertEq(m20.totalSupply(),1e77 - 1000000);
     }
+
+    function testBurn_1000000_5() public {
+        hoax(initAcc);
+        // console.log('testBurn', msg.sender);
+        m20.burn(initAcc, 1000000**5);
+        assertEq(m20.totalSupply(),1e77 - 1000000**5);
+    }
+
+    function testBurn_1000000_10() public {
+        hoax(initAcc);
+        // console.log('testBurn', msg.sender);
+        m20.burn(initAcc, 1000000**10);
+        assertEq(m20.totalSupply(),1e77 - 1000000**10);
+    }
+
+    function testTransfer_1000000() public {
+        // console.log('testTransfer', msg.sender);
+        hoax(initAcc);
+        m20.transfer(msg.sender, 1000000);
+        assertEq(m20.balanceOf(initAcc), 1e77 - 1000000);
+        assertEq(m20.balanceOf(msg.sender), 1000000);
+    }
+    
+    function testTransfer_1000000_5() public {
+        // console.log('testTransfer', msg.sender);
+        hoax(initAcc);
+        m20.transfer(msg.sender, 1000000**5);
+        assertEq(m20.balanceOf(initAcc), 1e77 - 1000000**5);
+        assertEq(m20.balanceOf(msg.sender), 1000000**5);
+    }
+
+    function testTransfer_1000000_10() public {
+        // console.log('testTransfer', msg.sender);
+        hoax(initAcc);
+        m20.transfer(msg.sender, 1000000**10);
+        assertEq(m20.balanceOf(initAcc), 1e77 - 1000000**10);
+        assertEq(m20.balanceOf(msg.sender), 1000000**10);
+    }
+
+    function testTransferFrom_1000000() public {
+        // console.log('testTransferFrom', msg.sender);
+        hoax(aliceAcc);
+        m20.transferFrom(initAcc, msg.sender, 1000000);
+        assertEq(m20.balanceOf(initAcc), 1e77 - 1000000);
+        assertEq(m20.balanceOf(msg.sender), 1000000);
+    }
+
+    function testTransferFrom_1000000_5() public {
+        // console.log('testTransferFrom', msg.sender);
+        hoax(aliceAcc);
+        m20.transferFrom(initAcc, msg.sender, 1000000**5);
+        assertEq(m20.balanceOf(initAcc), 1e77 - 1000000**5);
+        assertEq(m20.balanceOf(msg.sender), 1000000**5);
+    }
+
+    function testTransferFrom_1000000_10() public {
+        // console.log('testTransferFrom', msg.sender);
+        hoax(aliceAcc);
+        m20.transferFrom(initAcc, msg.sender, 1000000**10);
+        assertEq(m20.balanceOf(initAcc), 1e77 - 1000000**10);
+        assertEq(m20.balanceOf(msg.sender), 1000000**10);
+    }
+    
 }
