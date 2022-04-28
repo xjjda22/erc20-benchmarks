@@ -18,6 +18,7 @@ contract ERC20Test is Test {
         // console.log('setUp', msg.sender);
         initialAccount = msg.sender;
         m20 = new ERC20Mock('ERC20MOCKBENCH','E20B', initialAccount, 1e18);
+        m20.approve(initialAccount, 1e18);
     }
 
     function testName() public {
@@ -42,25 +43,27 @@ contract ERC20Test is Test {
 
     function testMint() public {
         // console.log('testMint', msg.sender);
-        // console.log('testMint 1e18', m20.totalSupply());
         m20.mint(msg.sender, 1000000);
-        // console.log('testMint 1e18 + 1000000', m20.totalSupply());
         assertEq(m20.totalSupply(),1e18 + 1000000);
     }
 
     function testBurn() public {
         // console.log('testBurn', msg.sender);
-        // console.log('testBurn 1e18', m20.totalSupply());
         m20.mint(msg.sender, 1000000);
-        // console.log('testBurn 1e18 + 1000000', m20.totalSupply());
-        m20.burn(initialAccount, 1000000);
-        // console.log('testBurn 1e18 - 1000000', m20.totalSupply());
+        m20.burn(msg.sender, 1000000);
         assertEq(m20.totalSupply(),1e18);
+    }
+
+    function testTransfer() public {
+        // console.log('testTransfer', msg.sender);
+        hoax(initialAccount);
+        m20.transfer(msg.sender, 1000000);
+        assertEq(m20.balanceOf(initialAccount), 1e18 - 1000000);
+        assertEq(m20.balanceOf(msg.sender), 1000000);
     }
 
     function testMintFuzz(uint256 t) public {
         // console.log('testMintFuzz', msg.sender);
-        // console.log('testMintFuzz', t, m20.totalSupply());
         if(t > type(uint256).max - 1e18) {
             // totalSupply would overflow here
             vm.expectRevert(stdError.arithmeticError);
@@ -74,7 +77,6 @@ contract ERC20Test is Test {
     function testMintFail() public {
         uint256 t = type(uint256).max;
         // console.log('testMintFail', msg.sender);
-        // console.log('testMintFail', t, m20.totalSupply());
         
         vm.expectRevert(stdError.arithmeticError);
         m20.mint(msg.sender, t);
