@@ -30,22 +30,26 @@ mint
 Implementation | 1000000 | 1000000**5 | 1000000**10
 --- | --- | --- | --- 
 erc20-openzeppelin | 36067 | 36067 | 36080
+erc20-solmate | 35954 | 35976 | 35967
 erc20-assembly | 0 | 0 | 0 
 
 burn
 Implementation | 1000000 | 1000000**5 | 1000000**10
 --- | --- | --- | --- 
 erc20-openzeppelin | 24392 | 24325 | 24398
+erc20-solmate | 24295 | 24250 | 24234
 erc20-assembly | 0 | 0 | 0 
 
 transfer
 Implementation | 1000000 | 1000000**5 | 1000000**10
 --- | --- | --- | --- 
 erc20-openzeppelin | 43140 | 43163 | 43197
+erc20-solmate | 42771 | 42794 | 42806
 erc20-assembly | 0 | 0 | 0 
 
 transferFrom
 Implementation | 1000000 | 1000000**5 | 1000000**10
 --- | --- | --- | --- 
 erc20-openzeppelin | 52641 | 52695 | 52698
+erc20-solmate | 50356 | 50388 | 50391
 erc20-assembly | 0 | 0 | 0 
